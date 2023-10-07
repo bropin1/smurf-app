@@ -1,0 +1,98 @@
+.draggable-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.draggable-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.draggable {
+  position: absolute;
+  cursor: grab;
+  pointer-events: all;
+}
+
+.draggable-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.controls-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  border: 1px solid blue;
+}
+
+.draggable-corner {
+  position: absolute;
+  border: 1px solid blue;
+  background-color: white;
+  width: 10px;
+  height: 10px;
+}
+
+.top-left {
+  top: -5px;
+  left: -5px;
+  cursor: move;
+}
+.top-right {
+  top: -5px;
+  right: -5px;
+  cursor: move;
+}
+.bottom-right {
+  bottom: -5px;
+  right: -5px;
+  cursor: move;
+}
+.bottom-left {
+  bottom: -5px;
+  left: -5px;
+  cursor: move;
+}
+.rotate-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  cursor: default;
+}
+
+.rotate-corner.top-left {
+  top: -17px;
+  left: -17px;
+}
+
+.rotate-corner.top-right {
+  top: -17px;
+  right: -17px;
+}
+
+.rotate-corner.bottom-right {
+  bottom: -17px;
+  right: -17px;
+}
+
+.rotate-corner.bottom-left {
+  bottom: -17px;
+  left: -17px;
+}
+
+@media (max-width: 768px) {
+  .controls-wrapper {
+    display: none;
+  }
+  .draggable-corner {
+    display: none;
+  }
+}

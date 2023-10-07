@@ -1,0 +1,10 @@
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  z-index: 9999;
+  transform: translate(-35%, 0%);
+  background-size: cover;
+  background-image: url("/src/assets/rotate.png");
+  pointer-events: none;
+}

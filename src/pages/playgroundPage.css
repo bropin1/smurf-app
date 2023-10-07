@@ -1,0 +1,16 @@
+.playground-page {
+  display: flex;
+  flex-direction: column;
+  height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;
+  touch-action: none;
+  padding: 24px;
+  row-gap: 24px;
+}
+
+.playground-header {
+  display: flex;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+}
