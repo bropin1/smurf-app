@@ -5,6 +5,12 @@
   flex-direction: column;
   justify-content: flex-start;
   touch-action: none;
+  row-gap: 12px;
+}
+
+.slider {
+  flex: 1 1 0;
+  min-width: 50px;
 }
 
 .active {
@@ -16,12 +22,11 @@
 }
 
 .action-button-wrapper {
-  position: absolute;
-  top: 16px;
-  left: 16px;
   display: flex;
   column-gap: 12px;
   z-index: 1;
+  justify-content: start;
+  align-items: center;
 }
 
 .active:hover {
@@ -51,35 +56,22 @@
 .button:hover span {
   background: none;
 }
-
-@media (min-width: 768px) {
-  .button {
-    font-size: 24px;
-    min-width: 196px;
-  }
-}
-
-.button-download {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  z-index: 1;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 123, 255, 1) 0%,
-    rgba(0, 90, 189, 1) 100%
-  );
-  color: #ffffff;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 24px;
-  font-size: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
 .header {
   height: 40px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: 70px;
+  }
+  .action-button-wrapper {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+
+  .slider {
+    min-width: 300px;
+  }
 }
 
 .canvas-wrapper {

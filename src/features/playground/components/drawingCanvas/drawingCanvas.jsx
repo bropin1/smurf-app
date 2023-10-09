@@ -7,13 +7,14 @@ const DrawingCanvas = ({
   canvasDimension,
   actionType,
   color,
+  brushSize,
 }) => {
   const [drawing, setDrawing] = useState(false);
   const resolutionFactor = 3;
 
   useEffect(() => {
     const canvasElement = drawingCanvasRef.current;
-
+    if (!canvasElement) return;
     const startDrawing = (event) => {
       if (actionType !== "brush" && actionType !== "eraser") return;
       console.log("start drawing");
@@ -42,17 +43,14 @@ const DrawingCanvas = ({
     const draw = (event) => {
       if (actionType !== "brush" && actionType !== "eraser") return;
       if (!drawing) return;
+
       const ctx = drawingCanvasRef.current.getContext("2d");
-      // const { clientX, clientY } = event;
 
       const rect = drawingCanvasRef.current.getBoundingClientRect();
       const { x, y } = getCoordinates(event, rect, resolutionFactor);
 
-      // const x = (clientX - rect.left) * resolutionFactor;
-      // const y = (clientY - rect.top) * resolutionFactor;
-
       ctx.lineTo(x, y);
-      ctx.lineWidth = lineWidth;
+      ctx.lineWidth = brushSize * resolutionFactor;
       ctx.lineCap = "round";
 
       if (actionType === "eraser") {
@@ -88,7 +86,7 @@ const DrawingCanvas = ({
       canvasElement.removeEventListener("touchmove", draw);
       canvasElement.removeEventListener("touchend", endDrawing);
     };
-  }, [drawingCanvasRef, actionType, drawing]);
+  }, [drawingCanvasRef, actionType, drawing, color, brushSize]);
 
   return (
     <canvas

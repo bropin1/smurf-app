@@ -6,6 +6,7 @@ import { mergeNDownloadCanvas } from "./utils/mergeNDownloadCanvas";
 import DrawingCanvas from "./components/drawingCanvas/drawingCanvas";
 import { Button } from "@mui/material";
 import { styled } from "@mui/system";
+import Slider from "@mui/material/Slider";
 
 import "./playground.css";
 
@@ -34,6 +35,7 @@ const WorkspaceCanvas = ({ sticker = hat }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [size, setSize] = useState(defaultSize);
+  const [brushSize, setBrushSize] = useState(10);
   const fileInputRef = useRef(null);
 
   const DownloadButton = styled(Button)`
@@ -43,11 +45,16 @@ const WorkspaceCanvas = ({ sticker = hat }) => {
     z-index: 1;
     background-color: #3498db;
     color: #fff;
-    padding: 8px 24px;
+    padding: 8px 16px;
     font-size: 16px;
+    border: 2px solid #3498db;
 
     &:hover {
       background-color: #2980b9;
+    }
+    @media (max-width: 768px) {
+      padding: 4px 8px;
+      font-size: 12px;
     }
   `;
 
@@ -68,13 +75,20 @@ const WorkspaceCanvas = ({ sticker = hat }) => {
   `;
 
   const ActionButton = styled(Button)`
-    background-color: ${(props) => (props.isactive ? "#000" : "transparent")};
-    border: 2px solid #000;
-    color: ${(props) => (props.isactive ? "#fff" : "#000")};
+    background-color: ${(props) => (props.isactive ? "#fff" : "transparent")};
+    border: 2px solid #fff;
+    padding: 8px 16px;
+    color: ${(props) => (props.isactive ? "#000" : "#fff")};
+    flex: 0 1 auto;
 
     &:hover {
-      color: ${(props) => (props.isactive ? "#fff" : "#fff")};
-      background-color: ${(props) => (props.isactive ? "#000" : "#000")};
+      color: ${(props) => (props.isactive ? "#000" : "#000")};
+      background-color: ${(props) => (props.isactive ? "#fff" : "#fff")};
+    }
+
+    @media (max-width: 768px) {
+      padding: 4px 8px;
+      font-size: 12px;
     }
   `;
 
@@ -205,7 +219,66 @@ const WorkspaceCanvas = ({ sticker = hat }) => {
 
   return (
     <div className="playground-root">
-      {/* <div className="header"></div> */}
+      <div className="header">
+        {loadedBgImg && (
+          <div className="action-button-wrapper">
+            <ActionButton
+              isactive={activeAction === "sticker"}
+              onClick={() => setActiveAction("sticker")}
+              onTouchStart={(e) => setActiveAction("sticker")}
+            >
+              Sticker
+            </ActionButton>
+            <ActionButton
+              isactive={activeAction === "brush"}
+              onClick={() => setActiveAction("brush")}
+              onTouchStart={(e) => setActiveAction("brush")}
+            >
+              brush
+            </ActionButton>
+            <ActionButton
+              isactive={activeAction === "eraser"}
+              onClick={() => setActiveAction("eraser")}
+              onTouchStart={(e) => setActiveAction("eraser")}
+            >
+              eraser
+            </ActionButton>
+            {activeAction === "brush" || activeAction === "eraser" ? (
+              <Slider
+                value={brushSize}
+                onChange={(event, newValue) => {
+                  setBrushSize(newValue);
+                }}
+                min={0}
+                max={200}
+                step={1}
+                className="slider"
+                sx={{
+                  color: "#fff",
+                  "& .MuiSlider-thumb": {
+                    bgcolor: "#fff",
+                    border: "2px solid #fff",
+                    width: 16,
+                    height: 16,
+                    "&:hover, &.Mui-focusVisible": {
+                      boxShadow: "0 0 0 8px rgba(255, 255, 255, 0.16)",
+                    },
+                  },
+                  "& .MuiSlider-rail": {
+                    height: 4,
+                  },
+                  "& .MuiSlider-track": {
+                    height: 4,
+                  },
+                  "&:hover": {
+                    color: "#fff",
+                  },
+                }}
+              />
+            ) : null}
+          </div>
+        )}
+      </div>
 
       <div className="canvas-wrapper">
         {!loadedBgImg && (
@@ -221,31 +294,6 @@ const WorkspaceCanvas = ({ sticker = hat }) => {
           </FullSizeInputWrapper>
         )}
         <div className="canvas-parent" ref={parentRef}>
-          {loadedBgImg && (
-            <div className="action-button-wrapper">
-              <ActionButton
-                isactive={activeAction === "sticker"}
-                onClick={() => setActiveAction("sticker")}
-                onTouchStart={(e) => setActiveAction("sticker")}
-              >
-                Sticker
-              </ActionButton>
-              <ActionButton
-                isactive={activeAction === "brush"}
-                onClick={() => setActiveAction("brush")}
-                onTouchStart={(e) => setActiveAction("brush")}
-              >
-                brush
-              </ActionButton>
-              <ActionButton
-                isactive={activeAction === "eraser"}
-                onClick={() => setActiveAction("eraser")}
-                onTouchStart={(e) => setActiveAction("eraser")}
-              >
-                eraser
-              </ActionButton>
-            </div>
-          )}
           <div
             className="canvas-merger"
             ref={canvasMergerRef}
@@ -258,6 +306,7 @@ const WorkspaceCanvas = ({ sticker = hat }) => {
             <DrawingCanvas
               drawingCanvasRef={drawingCanvasRef}
               color={`#3498db`}
+              brushSize={brushSize}
               canvasDimension={canvasDimension}
               actionType={activeAction}
             />

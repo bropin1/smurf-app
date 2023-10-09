@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Playground from "../features/playground/playground";
 import hatSticker from "../assets/hat.png";
 import "./playgroundPage.css";
+import { Link } from "react-router-dom";
 
 const PlaygroundPage = () => {
   useEffect(() => {
@@ -25,8 +26,11 @@ const PlaygroundPage = () => {
       }}
     >
       <header className="playground-header">
-        <span>Smurf site</span>
+        <Link className="title" to="/">
+          Smurf site
+        </Link>
       </header>
+
       <Playground sticker={hatSticker} />
     </div>
   );
